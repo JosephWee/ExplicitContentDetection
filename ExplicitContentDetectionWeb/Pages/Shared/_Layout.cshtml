@@ -6,7 +6,8 @@
     <title>@ViewData["Title"] - ExplicitContentDetection</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ExplicitContentDetection.styles.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/ExplicitContentDetection.styles.css" asp-append-version="true" /> *@
+    @await RenderSectionAsync("Header", required: false)
 </head>
 <body>
     <header>
@@ -21,6 +22,18 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarUnitTests" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Unit Tests
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarUnitTests">
+                                <li><a class="nav-link text-dark" asp-area="" asp-page="/ExampleMochaTest">Example</a></li>
+                                @*<li><a class="nav-link text-dark" asp-area="" asp-page="/MockGoogleCloudVisionAPITests">Mock-SafeSearch-API</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>*@
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>

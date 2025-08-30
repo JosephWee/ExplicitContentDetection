@@ -12,7 +12,18 @@ export default class ExampleUnitUnderTest {
         return this.messages.pop();
     }
 
+    getItem(index) {
+        if (index < 0 || index >= this.messages.length)
+            return null;
+
+        return this.messages[index];
+    }
+
     getCount() {
         return this.messages.length;
     }
 }
+
+export {
+    ExampleUnitUnderTest
+};

@@ -1,0 +1,26 @@
+﻿@page
+@model ExampleMochaTestModel
+@{
+    ViewData["Title"] = "Example Client-Side Mocha Unit Test";
+}
+@section Header {
+    <link rel="stylesheet" href="~/lib/mocha/mocha.css" />
+}
+
+<div id="mocha"></div>
+
+<script src="~/lib/mocha/chai.js"></script>
+<script src="~/lib/mocha/mocha.js"></script>
+
+<script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+</script>
+<script type="module" src="~/unit-tests/example/example-unit-under-test.js"></script>
+<script type="module" src="~/unit-tests/example/example-unit-under-test.test.js"></script>
+<script class="mocha-exec">
+    mocha.run();
+</script>
+
+@section Scripts {
+}
