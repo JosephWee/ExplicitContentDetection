@@ -1,0 +1,26 @@
+﻿@page
+@model ExampleMochaTestModel
+@{
+    ViewData["Title"] = "Example Client-Side Mocha Unit Test";
+}
+@section Header {
+    <link rel="shortcut icon" type="image/png" href="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine_favicon.png">
+    <link rel="stylesheet" href="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine.css">
+
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine-html.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/boot0.js"></script>
+    <!-- optional: include a file here that configures the Jasmine env -->
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/boot1.js"></script>
+
+    <!-- include source files here... -->
+    <script src="/lib/jasmine-standalone-5.10.0/src/Player.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/src/Song.js"></script>
+
+    <!-- include spec files here... -->
+    <script src="/lib/jasmine-standalone-5.10.0/spec/SpecHelper.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/spec/PlayerSpec.js"></script>
+}
+
+@section Scripts {
+}

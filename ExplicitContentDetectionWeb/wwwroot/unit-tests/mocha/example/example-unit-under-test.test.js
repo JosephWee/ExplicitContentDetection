@@ -1,6 +1,6 @@
 ﻿// ExampleUnitUnderTest.test.js - The Mocha test script
 const expect = chai.expect; // Using Chai's expect interface
-import ExampleUnitUnderTest from '/unit-tests/example/example-unit-under-test.js'; // Importing the code to be tested
+import ExampleUnitUnderTest from '/unit-tests/mocha/example/example-unit-under-test.js'; // Importing the code to be tested
 
 describe('ExampleUnitUnderTest Class', function () {
     let unitUnderTest = new ExampleUnitUnderTest();

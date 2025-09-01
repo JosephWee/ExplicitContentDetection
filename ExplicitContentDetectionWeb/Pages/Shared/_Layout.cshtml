@@ -24,10 +24,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarUnitTests" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Unit Tests
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarJasmineUnitTests" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Jasmine Unit Tests
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarUnitTests">
+                            <ul class="dropdown-menu" aria-labelledby="navbarJasmineUnitTests">
+                                <li><a class="nav-link text-dark" asp-area="" asp-page="/ExampleJasmineTest">Example</a></li>
+                                @*<li><a class="nav-link text-dark" asp-area="" asp-page="/MockGoogleCloudVisionAPITests">Mock-SafeSearch-API</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>*@
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarMochaUnitTests" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Mocha Unit Tests
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarMochaUnitTests">
                                 <li><a class="nav-link text-dark" asp-area="" asp-page="/ExampleMochaTest">Example</a></li>
                                 @*<li><a class="nav-link text-dark" asp-area="" asp-page="/MockGoogleCloudVisionAPITests">Mock-SafeSearch-API</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -49,7 +61,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted fixed-bottom">
         <div class="container">
             &copy; 2025 - ExplicitContentDetection - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
