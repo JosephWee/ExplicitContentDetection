@@ -1,0 +1,218 @@
+﻿@page
+@model GoogleCloudVisionAPITestsModel
+@{
+    ViewData["Title"] = "Google Cloud Vision API Tests Model";
+}
+@section Header {
+    <link rel="shortcut icon" type="image/png" href="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine_favicon.png">
+    <link rel="stylesheet" href="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine.css">
+
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/jasmine-html.js"></script>
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/boot0.js"></script>
+    <!-- optional: include a file here that configures the Jasmine env -->
+    <script src="/lib/jasmine-standalone-5.10.0/lib/jasmine-5.10.0/boot1.js"></script>
+}
+
+<div id="divImageUrls" class="row row-cols-2">
+    @*<!--Adult-->
+    <!--Adult (Smoking)-->
+    <div class="col-1">Image #01</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/5/58/Smoke_%2834942422652%29.jpg" /></div>
+    
+    <div class="col-1">Image #02</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/d1/Ganja_Smoking_-_Gangasagar_Fair_Transit_Camp_-_Kolkata_2013-01-12_2646.JPG" /></div>
+    
+    <div class="col-1">Image #03</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/da/Smoking_Crack.jpg" /></div>
+    
+    <!--Adult (Alcohol)-->
+    <div class="col-1">Image #04</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/b/b2/Liquor_store_in_Breckenridge_Colorado.jpg" /></div>
+    
+    <div class="col-1">Image #05</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/7/75/Beershop_%27t_Koelschip5.JPG" /></div>
+    
+    <div class="col-1">Image #06</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/3/34/Foley%27s_Off_Licence%2C_Sligo.JPG" /></div>
+        
+    <div class="col-1">Image #07</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/5/5d/Moliquorsign.jpg" /></div>
+    
+    <div class="col-1">Image #08</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/State_Liquor_%26_Wine_Store_%2843189408371%29.jpg" /></div>
+    
+    <!--Spoof-->
+    <div class="col-1">Image #09</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/df/Dover_boys_triple_knockout.png" /></div>
+    
+    <div class="col-1">Image #10</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/1/19/Androids.svg" /></div>
+    
+    <div class="col-1">Image #11</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/e/e2/Jo_simpsons.jpg" /></div>
+    
+    <div class="col-1">Image #12</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/1/1f/Galaxy_Quest_poster.jpg" /></div>
+    
+    <div class="col-1">Image #13</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/2/20/Starwreckrpgcover.jpg" /></div>
+    
+    <div class="col-1">Image #14</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/0/0d/Starwarsrobotchicken.jpg" /></div>
+    
+    <div class="col-1">Image #15</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/5/5b/StarWarped.jpg" /></div>
+    
+    <div class="col-1">Image #16</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/7/7b/Shrek_%282001_animated_feature_film%29.jpg" /></div>
+    
+    <div class="col-1">Image #17</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/2/28/Honest_Gil_Fulbright_SOLD_Poster.jpg" /></div>
+    
+    <div class="col-1">Image #18</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/2/20/Shepard_Fairey_Occupy_Poster.jpg" /></div>
+    
+    <div class="col-1">Image #19</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/4/4a/Not_Another_Teen_Movie_poster.jpg" /></div>
+
+    <!--Medical-->
+    <div class="col-1">Image #20</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/b/b1/Finger_abrasion.jpg" /></div>
+
+    <div class="col-1">Image #21</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/7/74/Knee_puncture.JPG" /></div>
+
+    <div class="col-1">Image #22</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/b/ba/Nervous_system_diagram.png" /></div>
+
+    <div class="col-1">Image #23</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/8/8c/Skeletal_muscles_homo_sapiens.JPG" /></div>
+
+    <div class="col-1">Image #24</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/d8/Man_shadow_anatomy.png" /></div>
+
+    <div class="col-1">Image #25</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/d5/Broken_fixed_arm.jpg" /></div>
+
+    <div class="col-1">Image #26</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/c/cd/Medical_X-Ray_imaging_IYN05_nevit.jpg" /></div>
+
+    <div class="col-1">Image #27</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/e/ee/An_eye_with_viral_conjunctivitis.jpg" /></div>
+
+    <div class="col-1">Image #28</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/3/3a/Conjunctivitis_disease.jpg" /></div>
+
+    <div class="col-1">Image #29</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/9/90/Swollen_eye_with_conjunctivitis.jpg" /></div>
+
+    <!--Violence-->
+    <!--Violence (Molotov)-->
+    <div class="col-1">Image #30</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/9/9b/Training_bijstandseenheid_12_%28molotov_zoom%29.jpg" /></div>
+
+    <div class="col-1">Image #31</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/4/48/Radically_oriented_protesters_throwing_Molotov_cocktails_in_direction_of_Interior_troops_positions._Dynamivska_str._Euromaidan_Protests._Events_of_Jan_19%2C_2014-3_%28cropped%29.jpg" /></div>
+
+    <div class="col-1">Image #32</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/b/b6/Canadian_Forces_soldier_throwing_Molotov_cocktail.jpg" /></div>
+
+    <div class="col-1">Image #33</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/b/b0/Molotovin_cocktail.jpg" /></div>
+
+    <!--Violence (Guns)-->
+    <div class="col-1">Image #34</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/c/c9/Gun_section_in_Stans_Merry_Mart_Wenatchee.jpg" /></div>
+
+    <div class="col-1">Image #35</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/1/11/Proarms_Armory_gun_shop_in_Prague.jpg" /></div>
+
+    <div class="col-1">Image #36</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/2/29/Range_shooter.jpg" /></div>
+
+    <div class="col-1">Image #37</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/d/d4/3_pistols_and_a_silencer_in_a_glass_case.JPG" /></div>
+
+    <div class="col-1">Image #38</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/e/e7/U.S._Air_Force_Buttstroke.jpg" /></div>
+
+    <div class="col-1">Image #39</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/5/57/Reagan_assassination_attempt_4_crop.jpg" /></div>
+
+    <!--Violence (Blades)-->
+    <div class="col-1">Image #40</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/c/c2/Sayuri_Iaido.JPG" /></div>
+
+    <div class="col-1">Image #41</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/e/e3/Shihonage.jpg" /></div>
+
+    <div class="col-1">Image #42</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/5/54/Samurai_actors.jpg" /></div>
+
+    <div class="col-1">Image #43</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/9/9b/Terry_Lim%27s_Kali_Seminar_with_Maurice_Ruiz_and_Ben_Poon.jpg" /></div>
+
+    <div class="col-1">Image #44</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/a/ac/Kali_seminar_2.jpg" /></div>
+
+    <div class="col-1">Image #45</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/c/ce/Silat_%28vietnamese%29.jpg" /></div>
+
+    <div class="col-1">Image #46</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/a/a0/Silek_Harimau.jpg" /></div>
+
+    <!--Racy-->
+    <div class="col-1">Image #47</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/8/8d/Marilyn_Monroe_photo_pose_Seven_Year_Itch.jpg" /></div>
+
+    <div class="col-1">Image #48</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/8/83/Model_in_white_lingerie_at_Western_Canada_Fashion_Week_2016_Spring_-_Edmonton.jpg" /></div>
+
+    <div class="col-1">Image #49</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/f/f1/Female_Model_Posing.jpg" /></div>
+
+    <div class="col-1">Image #50</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/c/ce/Young_woman_in_lingerie_photographing_herself.jpg" /></div>
+
+    <div class="col-1">Image #51</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/0/00/Female_model_for_pool_photo_session_2022_IMG_8063Okamoto.jpg" /></div>
+
+    <div class="col-1">Image #52</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/commons/8/86/Woman_lying_down_in_white_lingerie.jpg" /></div>*@
+
+    <!--Others-->
+    <div class="col-1">Image #53</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/4/40/Peanuts_gang.png" /></div>
+
+    <div class="col-1">Image #54</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/4/46/Garfieldand_friends.png" /></div>
+
+    <div class="col-1">Image #55</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="https://upload.wikimedia.org/wikipedia/en/2/21/The_Wizard_of_Id_-_The_Dailies_%26_Sundays_%281971%29.jpg" /></div>
+
+    <div class="col-1">Image #56</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="" /></div>
+
+    <div class="col-1">Image #57</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="" /></div>
+
+    <div class="col-1">Image #58</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="" /></div>
+
+    <div class="col-1">Image #59</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="" /></div>
+
+    <div class="col-1">Image #60</div>
+    <div class="col-11"><input class="imageUrl w-100" type="text" value="" /></div>
+</div>
+
+<div id="divImages"></div>
+
+@section Scripts {
+    <!-- include source files here... -->
+    <script src="/unit-tests/jasmine/safesearch/safe-search-client.js"></script>
+
+    <!-- include spec files here... -->
+    <script src="/unit-tests/jasmine/safesearch/safe-search-client.test.js"></script>
+}
