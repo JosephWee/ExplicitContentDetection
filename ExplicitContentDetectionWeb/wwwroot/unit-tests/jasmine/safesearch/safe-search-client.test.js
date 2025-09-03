@@ -2,8 +2,9 @@
 //const expect = chai.expect; // Using Chai's expect interface
 //import SafeSearchClient from '/unit-tests/safesearch/safe-search-client.js'; // Importing the code to be tested
 
-describe('SafeSearchClient Class', function () {
-    let unitUnderTest = new SafeSearchClient();
+describe('SafeSearch API Test', function () {
+    let urls = [];
+    let loadedImages = [];
     
     beforeEach(function () {
         
@@ -17,7 +18,8 @@ describe('SafeSearchClient Class', function () {
         expect(typeof inputs.length === "number").toEqual(true);
         expect(inputs.length > 0).toEqual(true);
 
-        let urls = [];
+        urls = [];
+        loadedImages = [];
         for (var i = 0; i < inputs.length; i++) {
 
             let url = ($(inputs[i]).val() + "").trim();
@@ -30,21 +32,49 @@ describe('SafeSearchClient Class', function () {
 
         if (window.console && typeof window.console.log === "function")
             console.log(urls);
+    });
 
-        unitUnderTest.readUrlsAsBase64(urls).then((imgs) => {
 
-            if (window.console && typeof window.console.log === "function")
-                console.log(imgs);
 
-            let divImages = $("#divImages").empty();
+    describe('OnlineFileHelper class', function () {
+        let onlineFileHelper = new OnlineFileHelper();
 
-            for (var i = 0; i < imgs.length; i++) {
+        beforeEach(function () {
 
-                let img = $('<div><img src="' + imgs[i].base64Data + '" alt="' + imgs[i].url + '" width="320" ></div>');
-                divImages.append(img);
-            }
+        });
+
+        it('should be able to load images', function (done) {
+
+            onlineFileHelper.readUrlsAsBase64(urls).then((imgs) => {
+
+                if (window.console && typeof window.console.log === "function")
+                    console.log(imgs);
+
+                loadedImages = imgs;
+
+                expect(loadedImages.length === imgs.length).toEqual(true);
+                expect(typeof loadedImages === typeof imgs).toEqual(true);
+                expect(loadedImages.length > 0).toEqual(true);
+
+                let divImages = $("#divImages").empty();
+
+                for (var i = 0; i < imgs.length; i++) {
+
+                    let img = $('<div><img src="' + imgs[i].base64Data + '" alt="' + imgs[i].url + '" width="320" ></div>');
+                    divImages.append(img);
+                }
+
+                done();
+            });
         });
     });
+
+    //it('should call Mock SafeSearch API successfully', function () {
+
+    //    expect(loadedImages.length > 0).toEqual(true);
+
+
+    //});
 
     //it('should be able to play a Song', function () {
     //    player.play(song);

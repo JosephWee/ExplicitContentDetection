@@ -1,5 +1,5 @@
-﻿// safe-search-client.js - The code to be tested
-class SafeSearchClient {
+﻿// online-file-helper.js - The code to be tested
+class OnlineFileHelper {
     constructor() {
         //this.messages = [];
     }
@@ -60,8 +60,8 @@ class SafeSearchClient {
     }
 }
 
-//export default SafeSearchClient;
+//export default OnlineFileHelper;
 
 //export {
-//    SafeSearchClient
+//    OnlineFileHelper
 //};
