@@ -60,8 +60,45 @@ class OnlineFileHelper {
     }
 }
 
+class SafeSearchHelper {
+
+    #onlineFileHelper;
+
+    constructor() {
+        
+        this.#onlineFileHelper = new OnlineFileHelper();
+    }
+
+    async createSafeSearchRequest(urls) {
+
+        let loadedImages = await this.#onlineFileHelper.readUrlsAsBase64(urls);
+
+        let requestObj = {};
+        requestObj.requests = [];
+
+        let featureType = {};
+        featureType.type = "SAFE_SEARCH_DETECTION";
+
+        for (var i = 0; i < loadedImages.length; i++) {
+
+            const pattern = new RegExp("^data:image/.*;base64,");
+            let base64String = loadedImages[i].base64Data.replace(pattern, "");
+
+            let image = {};
+            image.content = base64String;
+            image.features = [];
+            image.features.push(featureType);
+
+            requestObj.requests.push(image);
+        }
+
+        return requestObj;
+    }
+}
+
 //export default OnlineFileHelper;
 
 //export {
-//    OnlineFileHelper
+//    OnlineFileHelper,
+//    SafeSearchHelper
 //};

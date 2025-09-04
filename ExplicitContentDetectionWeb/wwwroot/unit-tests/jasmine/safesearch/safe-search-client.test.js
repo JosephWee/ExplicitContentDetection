@@ -3,23 +3,13 @@
 //import SafeSearchClient from '/unit-tests/safesearch/safe-search-client.js'; // Importing the code to be tested
 
 describe('SafeSearch API Test', function () {
-    let urls = [];
-    let loadedImages = [];
-    
-    beforeEach(function () {
-        
-    });
 
-    it('should have 1 or more valid urls', function () {
+    function readUrls() {
+
+        let urls = [];
 
         let inputs = $("#divImageUrls").find("input.imageUrl");
 
-        expect(typeof inputs === "object").toEqual(true);
-        expect(typeof inputs.length === "number").toEqual(true);
-        expect(inputs.length > 0).toEqual(true);
-
-        urls = [];
-        loadedImages = [];
         for (var i = 0; i < inputs.length; i++) {
 
             let url = ($(inputs[i]).val() + "").trim();
@@ -28,100 +18,117 @@ describe('SafeSearch API Test', function () {
             }
         }
 
-        expect(urls.length > 0).toEqual(true);
-
         if (window.console && typeof window.console.log === "function")
             console.log(urls);
+
+        return urls;
+    }
+
+    beforeEach(function () {
+        
     });
 
+    it('should have 1 or more valid urls', function (done) {
 
+        let urls = readUrls();
+        expect(urls.length > 0).toEqual(true);
+        done();
+    });
 
-    describe('OnlineFileHelper class', function () {
+    it('should be able to load images', function (done) {
+
+        let urls = readUrls();
+        expect(urls.length > 0).toEqual(true);
+
         let onlineFileHelper = new OnlineFileHelper();
 
-        beforeEach(function () {
+        onlineFileHelper.readUrlsAsBase64(urls).then((imgs) => {
 
+            let loadedImages = [];
+
+            if (window.console && typeof window.console.log === "function")
+                console.log(imgs);
+
+            loadedImages = imgs;
+            expect(loadedImages.length > 0).toEqual(true);
+
+            let divImages = $("#divImages").empty();
+
+            for (var i = 0; i < imgs.length; i++) {
+
+                let img = $('<div><img src="' + imgs[i].base64Data + '" alt="' + imgs[i].url + '" width="320" ></div>');
+                divImages.append(img);
+            }
+
+            done();
         });
 
-        it('should be able to load images', function (done) {
+    });
 
-            onlineFileHelper.readUrlsAsBase64(urls).then((imgs) => {
+    it('should be able to retrieve image annotations', function (done) {
 
-                if (window.console && typeof window.console.log === "function")
-                    console.log(imgs);
+        let urls = readUrls();
+        expect(urls.length > 0).toEqual(true);
 
-                loadedImages = imgs;
+        let safeSearchHelper = new SafeSearchHelper();
 
-                expect(loadedImages.length === imgs.length).toEqual(true);
-                expect(typeof loadedImages === typeof imgs).toEqual(true);
-                expect(loadedImages.length > 0).toEqual(true);
+        safeSearchHelper.createSafeSearchRequest(urls).then((req) => {
 
-                let divImages = $("#divImages").empty();
+            let baseUrl = "https://localhost:7061";
+            let route = "/SafeSearch/images:annotate";
 
-                for (var i = 0; i < imgs.length; i++) {
+            let data = JSON.stringify(req);
 
-                    let img = $('<div><img src="' + imgs[i].base64Data + '" alt="' + imgs[i].url + '" width="320" ></div>');
-                    divImages.append(img);
+            if (window.console && typeof window.console.log === "function") {
+                console.log(urls);
+                console.log(req);
+                console.log(data);
+            }
+
+            let jqxhr = $.ajax({
+                async: true,
+                url: baseUrl + route,
+                method: "post",
+                contentType: 'application/json',
+                data: req,
+                beforeSend: function (xhr, settings) {
+
+                    if (window.console && typeof window.console.log === "function") {
+                        console.log("beforeSend");
+                        console.log(xhr);
+                        console.log(settings);
+                    }
+
+                    //Access-Control-Allow-Origin
+                    xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+                    //xhr.overrideMimeType("text/plain; charset=x-user-defined");
                 }
+            })
+            .done(function (arg1, arg2) {
+
+                if (window.console && typeof window.console.log === "function") {
+                    console.log("success");
+                    console.log(arg1);
+                    console.log(arg2);
+                }
+
+                expect(typeof arg1 === "object").toEqual(true);
+
+                done();
+            })
+            .fail(function (arg1, arg2) {
+
+                if (window.console && typeof window.console.log === "function") {
+                    console.log("error");
+                    console.log(arg1);
+                    console.log(arg2);
+                }
+
+                expect(false).toEqual(true);
 
                 done();
             });
         });
     });
-
-    //it('should call Mock SafeSearch API successfully', function () {
-
-    //    expect(loadedImages.length > 0).toEqual(true);
-
-
-    //});
-
-    //it('should be able to play a Song', function () {
-    //    player.play(song);
-    //    expect(player.currentlyPlayingSong).toEqual(song);
-
-    //    // demonstrates use of custom matcher
-    //    expect(player).toBePlaying(song);
-    //});
-
-    //describe('when song has been paused', function () {
-    //    beforeEach(function () {
-    //        player.play(song);
-    //        player.pause();
-    //    });
-
-    //    it('should indicate that the song is currently paused', function () {
-    //        expect(player.isPlaying).toBeFalsy();
-
-    //        // demonstrates use of 'not' with a custom matcher
-    //        expect(player).not.toBePlaying(song);
-    //    });
-
-    //    it('should be possible to resume', function () {
-    //        player.resume();
-    //        expect(player.isPlaying).toBeTruthy();
-    //        expect(player.currentlyPlayingSong).toEqual(song);
-    //    });
-    //});
-
-    //// demonstrates use of spies to intercept and test method calls
-    //it('tells the current song if the user has made it a favorite', function () {
-    //    spyOn(song, 'persistFavoriteStatus');
-
-    //    player.play(song);
-    //    player.makeFavorite();
-
-    //    expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-    //});
-
-    ////demonstrates use of expected exceptions
-    //describe('#resume', function () {
-    //    it('should throw an exception if song is already playing', function () {
-    //        player.play(song);
-
-    //        expect(function () {
-    //            player.resume();
-    //        }).toThrowError('song is already playing');
-    //    });
-    //});
 });
