@@ -20,7 +20,7 @@ class OnlineFileHelper {
         return base64Data;
     }
 
-    async readUrlAsBase64(url) {
+    async readUrlAsBase64(index, url) {
 
         let result = null;
 
@@ -35,6 +35,7 @@ class OnlineFileHelper {
                 const base64Data = await this.readBlobUrlAsBase64(blob);
 
                 let entry = {};
+                entry["index"] = index;
                 entry["url"] = url;
                 entry["base64Data"] = base64Data;
 
@@ -49,13 +50,17 @@ class OnlineFileHelper {
 
     async readUrlsAsBase64(urls) {
 
-        let result = [];
+        let promises = [];
 
         for (var i = 0; i < urls.length; i++) {
-            const urlResult = await this.readUrlAsBase64(urls[i]);
-            result.push(urlResult);
+
+            promises.push(this.readUrlAsBase64(i, urls[i]));
+
+            if (window.console && typeof window.console.log === "function")
+                console.log(`promise ${i}`);
         }
 
+        let result = await Promise.all(promises);
         return result;
     }
 }
@@ -73,8 +78,8 @@ class SafeSearchHelper {
 
         let loadedImages = await this.#onlineFileHelper.readUrlsAsBase64(urls);
 
-        let requestObj = {};
-        requestObj.requests = [];
+        let requestCollectionObj = {};
+        requestCollectionObj.requests = [];
 
         let featureType = {};
         featureType.type = "SAFE_SEARCH_DETECTION";
@@ -84,15 +89,20 @@ class SafeSearchHelper {
             const pattern = new RegExp("^data:image/.*;base64,");
             let base64String = loadedImages[i].base64Data.replace(pattern, "");
 
-            let image = {};
-            image.content = base64String;
-            image.features = [];
-            image.features.push(featureType);
+            let requestObj = {};
 
-            requestObj.requests.push(image);
+            let imageObj = {};
+            imageObj.content = base64String;
+
+            requestObj.image = imageObj;
+
+            requestObj.features = [];
+            requestObj.features.push(featureType);
+
+            requestCollectionObj.requests.push(requestObj);
         }
 
-        return requestObj;
+        return requestCollectionObj;
     }
 }
 

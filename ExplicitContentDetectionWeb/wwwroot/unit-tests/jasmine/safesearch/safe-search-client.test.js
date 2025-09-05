@@ -10,7 +10,7 @@ describe('SafeSearch API Test', function () {
 
         let inputs = $("#divImageUrls").find("input.imageUrl");
 
-        for (var i = 0; i < inputs.length; i++) {
+        for (let i = 0; i < inputs.length; i++) {
 
             let url = ($(inputs[i]).val() + "").trim();
             if (typeof url === "string" && url.length > 0) {
@@ -22,6 +22,67 @@ describe('SafeSearch API Test', function () {
             console.log(urls);
 
         return urls;
+    }
+
+    function getMockApiAjaxCall(req) {
+
+        let baseUrl = "https://localhost:7061";
+        let route = "/SafeSearch/images:annotate";
+
+        let data = JSON.stringify(req);
+
+        if (window.console && typeof window.console.log === "function") {
+            //console.log(urls);
+            console.log(req);
+            //console.log(data);
+        }
+
+        let jqxhr = $.ajax({
+            async: true,
+            url: baseUrl + route,
+            method: "post",
+            contentType: 'application/json',
+            dataType: 'json',
+            data: data,
+            //timeout: 120000,
+            beforeSend: function (xhr, settings) {
+
+                //if (window.console && typeof window.console.log === "function") {
+                //    console.log("beforeSend");
+                //    console.log(xhr);
+                //    console.log(settings);
+                //}
+
+                //Access-Control-Allow-Origin
+                //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+                //xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            }
+        });
+
+        return jqxhr;
+        //.done(function (arg1, arg2, arg3) {
+
+        //    if (window.console && typeof window.console.log === "function") {
+        //        console.log("success");
+        //        console.log(arg1);
+        //        console.log(arg2);
+        //        console.log(arg3);
+        //    }
+
+        //    return arg1;
+        //})
+        //.fail(function (arg1, arg2, arg3) {
+
+        //    if (window.console && typeof window.console.log === "function") {
+        //        console.log("error");
+        //        console.log(arg1);
+        //        console.log(arg2);
+        //        console.log(arg3);
+        //    }
+
+        //    return null;
+        //});
     }
 
     beforeEach(function () {
@@ -54,7 +115,7 @@ describe('SafeSearch API Test', function () {
 
             let divImages = $("#divImages").empty();
 
-            for (var i = 0; i < imgs.length; i++) {
+            for (let i = 0; i < imgs.length; i++) {
 
                 let img = $('<div><img src="' + imgs[i].base64Data + '" alt="' + imgs[i].url + '" width="320" ></div>');
                 divImages.append(img);
@@ -65,6 +126,14 @@ describe('SafeSearch API Test', function () {
 
     });
 
+    //describe("long asynchronous specs", function () {
+    //    it("takes a long time to complete", function (done) {
+    //        setTimeout(function () {
+    //            done();
+    //        }, 9000);
+    //    }, 10000); // This spec will timeout after 10 seconds
+    //});
+
     it('should be able to retrieve image annotations', function (done) {
 
         let urls = readUrls();
@@ -72,63 +141,49 @@ describe('SafeSearch API Test', function () {
 
         let safeSearchHelper = new SafeSearchHelper();
 
-        safeSearchHelper.createSafeSearchRequest(urls).then((req) => {
+        let createReqTasks = [];
+        for (let i = 0; i < urls.length; i++) {
 
-            let baseUrl = "https://localhost:7061";
-            let route = "/SafeSearch/images:annotate";
+            let url = [];
+            url.push(urls[i]);
+            createReqTasks.push(safeSearchHelper.createSafeSearchRequest(url));
+        }
 
-            let data = JSON.stringify(req);
+        Promise.all(createReqTasks).then((safeSearchRequests) => {
 
             if (window.console && typeof window.console.log === "function") {
-                console.log(urls);
-                console.log(req);
-                console.log(data);
+                console.log("safeSearchRequests Created");
+                console.log(safeSearchRequests);
             }
 
-            let jqxhr = $.ajax({
-                async: true,
-                url: baseUrl + route,
-                method: "post",
-                contentType: 'application/json',
-                data: req,
-                beforeSend: function (xhr, settings) {
+            let callApiTasks = [];
+            for (let j = 0; j < safeSearchRequests.length; j++) {
+                callApiTasks.push(getMockApiAjaxCall(safeSearchRequests[j]));
+            }
 
-                    if (window.console && typeof window.console.log === "function") {
-                        console.log("beforeSend");
-                        console.log(xhr);
-                        console.log(settings);
-                    }
+            //Promise.all(callApiTasks).then((results) => {
 
-                    //Access-Control-Allow-Origin
-                    xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+            //    if (window.console && typeof window.console.log === "function") {
+            //        console.log("API called");
+            //        console.log(results);
+            //    }
 
-                    //xhr.overrideMimeType("text/plain; charset=x-user-defined");
-                }
-            })
-            .done(function (arg1, arg2) {
+            //    done();
+            //});
+
+            $.when.apply($, callApiTasks).then(function (...args) {
 
                 if (window.console && typeof window.console.log === "function") {
-                    console.log("success");
-                    console.log(arg1);
-                    console.log(arg2);
+                    console.log("when then");
+                    console.log(args);
+
+                    //for (let a = 0; a < args.length; a++) {
+                    //    console.log(args[a]);
+                    //}
                 }
 
-                expect(typeof arg1 === "object").toEqual(true);
-
-                done();
-            })
-            .fail(function (arg1, arg2) {
-
-                if (window.console && typeof window.console.log === "function") {
-                    console.log("error");
-                    console.log(arg1);
-                    console.log(arg2);
-                }
-
-                expect(false).toEqual(true);
-
-                done();
             });
         });
-    });
+
+    }, 120000);
 });

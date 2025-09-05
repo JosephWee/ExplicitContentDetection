@@ -30,6 +30,7 @@ namespace MockApi.Controllers
 
         [HttpPost]
         [Route("images:annotate")]
+        [RequestSizeLimit(Int64.MaxValue)]
         public IActionResult PostImages(SafeSearchRequests safeSearchRequests)
         {
             if (safeSearchRequests == null)
